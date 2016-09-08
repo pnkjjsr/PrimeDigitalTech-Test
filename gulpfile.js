@@ -13,10 +13,10 @@ var wrench = require('wrench');
  *  This will load all js or coffee files in the gulp directory
  *  in order to load all gulp tasks
  */
-wrench.readdirSyncRecursive('./gulp').filter(function(file) {
-  return (/\.(js|coffee)$/i).test(file);
-}).map(function(file) {
-  require('./gulp/' + file);
+wrench.readdirSyncRecursive('./gulp').filter(function (file) {
+    return (/\.(js|coffee)$/i).test(file);
+}).map(function (file) {
+    require('./gulp/' + file);
 });
 
 
@@ -25,5 +25,23 @@ wrench.readdirSyncRecursive('./gulp').filter(function(file) {
  *  main optimization build task
  */
 gulp.task('default', ['clean'], function () {
-  gulp.start('build');
+    gulp.start('build');
+});
+
+var iconfont = require('gulp-iconfont');
+var iconfontCss = require('gulp-iconfont-css');
+var fontName = 'prime';
+
+gulp.task('iconfont', function () {
+    gulp.src(['src/assets/images/icons/svg/*.svg'])
+            .pipe(iconfontCss({
+                fontName: fontName,
+                path: 'src/assets/templates/css/_prime.scss',
+                targetPath: '../css/fonts/_prime.scss',
+                fontPath: '../assets/fonts/'
+            }))
+            .pipe(iconfont({
+                fontName: fontName
+            }))
+            .pipe(gulp.dest('src/assets/fonts/'));
 });
